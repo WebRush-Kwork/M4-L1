@@ -49,7 +49,7 @@ class StoreManager:
             res = cur.fetchall()
             if res:
                 cur.execute(
-                    "UPDATE cart SET count = count + 1  WHERE user_id = ? AND clothes_id = ? ", (user_id, item_id))
+                    "UPDATE cart SET count = count + 1  WHERE user_id = ? AND item_id = ? ", (user_id, item_id))
             else:
                 cur.execute(
                     "INSERT INTO cart VALUES (?, ?, ?)", (user_id, item_id, 1))

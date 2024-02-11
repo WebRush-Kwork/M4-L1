@@ -31,7 +31,9 @@ def gen_markup(id):
 def callback_query(call):
     if call.data.startswith("buy"):
         id = call.data[call.data.find("_")+1:]
-        bot.send_message(call.chat.id, "Товар добавлен в корзину")
+        user_id = call.message.chat.id
+        manager.add_item_to_cart(user_id, id)
+        bot.send_message(call.message.chat.id, "Товар добавлен в корзину")
 
 
 @bot.message_handler(commands=['show_store'])
