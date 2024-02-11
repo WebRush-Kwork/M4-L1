@@ -40,6 +40,27 @@ class StoreManager:
         result = cur.fetchall()
         return result
 
+    def add_item_to_cart(self, user_id, item_id):
+        conn = sqlite3.connect(self.database)
+        with conn:
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT * FROM cart WHERE user_id = ? and item_id = ?", (user_id, item_id))
+            res = cur.fetchall()
+            if res:
+                cur.execute(
+                    "UPDATE cart SET count = count + 1  WHERE user_id = ? AND clothes_id = ? ", (user_id, item_id))
+            else:
+                cur.execute(
+                    "INSERT INTO cart VALUES (?, ?, ?)", (user_id, item_id, 1))
+            conn.commit()
+
+    def show_cart(self, user_id):
+        pass
+
+    def get_name_of_item(self, clothes_id):
+        pass
+
 
 manager = StoreManager("store.db")
 manager.create_tables()
