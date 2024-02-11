@@ -43,6 +43,22 @@ def show_store(message):
         card_of_item(bot, message, row)
 
 
+@bot.message_handler(commands=['show_cart'])
+def show_cart(message):
+    user_id = message.chat.id
+    rows = manager.show_cart(user_id)
+    for row in rows:
+        name = manager.get_name_of_item(row[1])[0][0]
+        count = row[1]
+        bot.send_message(message.chat.id, f"{name} - {count} шт.")
+
+
+@bot.message_handler(commands=['delete_cart'])
+def delete_history(message):
+    manager.delete_cart()
+    bot.send_message(message.chat.id, "Товары успешно очищены!")
+
+
 if __name__ == '__main__':
     manager = StoreManager("store.db")
     bot.infinity_polling()

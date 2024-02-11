@@ -56,10 +56,24 @@ class StoreManager:
             conn.commit()
 
     def show_cart(self, user_id):
-        pass
+        conn = sqlite3.connect(self.database)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM cart WHERE user_id = ?", (user_id,))
+        result = cur.fetchall()
+        return result
 
-    def get_name_of_item(self, clothes_id):
-        pass
+    def get_name_of_item(self, item_id):
+        conn = sqlite3.connect(self.database)
+        cur = conn.cursor()
+        cur.execute("SELECT name FROM items WHERE item_id = ?", (item_id,))
+        result = cur.fetchall()
+        return result
+
+    def delete_cart(self):
+        conn = sqlite3.connect(self.database)
+        with conn:
+            conn.execute("DELETE FROM cart")
+            conn.commit()
 
 
 manager = StoreManager("store.db")
